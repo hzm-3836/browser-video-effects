@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Run original browser-local video effects with Canvas and MediaRecorder. A dependency-free demo of the EffectPop open-source renderer.">
+  <title>Browser Video Effects — local demo</title>
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="eyebrow">EffectPop / open-source core</p>
+      <h1>Browser Video Effects</h1>
+      <p class="intro">Original editing presets. Your media stays in this browser.</p>
+      <p><a href="https://effectpop.com/tools/freeze-frame" rel="noopener noreferrer" target="_blank">Use the hosted Freeze Frame editor <span aria-hidden="true">↗</span></a> <span class="separator" aria-hidden="true">/</span> <a href="https://effectpop.com/tools/beat-sync" rel="noopener noreferrer" target="_blank">Try Beat Sync</a></p>
+    </header>
+    <div class="workspace">
+      <section class="controls" aria-labelledby="controls-heading">
+        <h2 id="controls-heading">Edit settings</h2>
+        <form id="settings">
+          <fieldset id="fields">
+            <legend class="visually-hidden">Video settings</legend>
+            <label>Effect
+              <select name="kind" id="kind">
+                <option value="freeze-frame">Freeze Frame</option>
+                <option value="beat-sync">Beat Sync</option>
+                <option value="pet-video">Photo Slideshow</option>
+                <option value="most-likely-to">Friend Reveal</option>
+              </select>
+            </label>
+            <label>Media files
+              <input id="media" type="file" accept="image/jpeg,image/png,image/webp,video/mp4,video/webm,video/quicktime" multiple aria-describedby="media-hint">
+            </label>
+            <p id="media-hint" class="hint">Freeze Frame: one photo or video. Other effects: 1–8 photos. Images ≤12 MB; videos ≤40 MB and 60 seconds.</p>
+            <button type="button" id="samples" class="secondary">Use original sample illustrations</button>
+            <p id="files" class="hint"></p>
+            <label>Title or question <input name="title" value="FREEZE" maxlength="100"></label>
+            <label id="names-label" hidden>Names, separated by commas <input name="names" value="Alex, Sam, Taylor" maxlength="199"></label>
+            <label id="winner-label" hidden>Answer, starting from 1 <input name="winner" type="number" value="1" min="1" max="8" step="1"></label>
+            <div class="two-columns">
+              <label>Length, seconds <input name="duration" type="number" value="6" min="3" max="30" step="1" required></label>
+              <label>Aspect ratio
+                <select name="ratio"><option value="3:4">3:4</option><option value="9:16">9:16</option><option value="1:1">1:1</option></select>
+              </label>
+            </div>
+            <div id="freeze-settings" class="two-columns">
+              <label>Freeze at, seconds <input name="freezeAt" type="number" value="1" min="0" max="29.75" step="0.25" required></label>
+              <label>Hold for, seconds <input name="freezeDuration" type="number" value="1.5" min="0.25" max="30" step="0.25" required></label>
+            </div>
+            <label id="bpm-label" hidden>Manual BPM <input name="bpm" type="number" value="120" min="40" max="220" required></label>
+            <label id="shake-label">Shake intensity <input name="shake" type="range" min="0" max="1" value="0.3" step="0.1"></label>
+            <label>Separate soundtrack, optional <input id="audio" type="file" accept="audio/*" aria-describedby="audio-hint"></label>
+            <p id="audio-hint" class="hint">Audio ≤20 MB. The original video's audio is not retained. Preview is silent; separate audio is included in export.</p>
+          </fieldset>
+        </form>
+        <div class="actions">
+          <button type="button" id="export">Export video</button>
+          <button type="button" id="cancel" class="secondary" hidden>Cancel</button>
+        </div>
+        <progress id="progress" value="0" max="1" aria-label="Export progress" hidden></progress>
+        <p id="status" role="status" aria-live="polite">Loading sample illustrations…</p>
+        <p id="error" role="alert" hidden></p>
+      </section>
+      <section class="preview" aria-labelledby="preview-heading">
+        <h2 id="preview-heading">Frame preview</h2>
+        <div class="canvas-wrap"><canvas id="preview" width="540" height="720" aria-label="Video frame preview">Use a browser with Canvas support.</canvas></div>
+        <label class="timeline">Preview time <input id="time" type="range" value="0" min="0" max="6" step="0.05" aria-describedby="time-value"></label>
+        <output id="time-value">0.00 seconds</output>
+        <section id="result" class="result" hidden aria-label="Exported video">
+          <h3>Your export</h3>
+          <video id="result-video" controls playsinline preload="metadata"></video>
+          <p id="result-details" class="hint"></p>
+          <a id="download" class="download" download>Download video</a>
+        </section>
+      </section>
+    </div>
+    <footer>
+      <p>No accounts, analytics, advertisements, AI API or media uploads in this local demo. The hosted EffectPop site has its own <a href="https://effectpop.com/privacy" rel="noopener noreferrer" target="_blank">privacy policy</a>.</p>
+      <p>Encoding runs in real time. Keep this tab visible. MP4 or WebM output depends on browser and codec support. Beat Sync follows your BPM; the slideshow and Friend Reveal do not generate AI content.</p>
+    </footer>
+  </main>
+</body>
+</html>
